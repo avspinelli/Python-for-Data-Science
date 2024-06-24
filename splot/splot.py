@@ -29,7 +29,8 @@ def splot(data, x, plot_type, y = None, y2 = None, recession = True,
                         dt.datetime.strptime(recession_periods[1], '%Y-%m-%d'),
                         color=color, alpha=alpha, zorder = -1) 
 
-    
+    if not df[[x]].select_dtypes(include=[np.datetime64]).columns[0] == x: recession = False # If the x var is not datetime, recession goes off
+        
     if golden_ratio == False: # Golden ratio option to multiply any size[1] that you input by the golden ratio approximation of 1.618
         sns.set_theme(rc={'figure.figsize':(size[0],size[1])},style="ticks") # Set theme according to which size option you input
 
@@ -60,7 +61,7 @@ def splot(data, x, plot_type, y = None, y2 = None, recession = True,
         
     else:
         # General data org
-        data[x] = data[x].astype('datetime64[ns]') # If plots are not a distribution or a scatterplot, assume the x is a date and apply datetime64[ns]
+        # data[x] = data[x].astype('datetime64[ns]') # If plots are not a distribution or a scatterplot, assume the x is a date and apply datetime64[ns]
 
         g_start = data.sort_values(x, ascending = True).iloc[0][x] # Sets graphs start and end dates for time series data
         g_end = data.sort_values(x, ascending = False).iloc[0][x]
@@ -145,4 +146,4 @@ def splot(data, x, plot_type, y = None, y2 = None, recession = True,
     if path != None: # save to path if you supply one
         
         fig = ax.get_figure()
-        fig.savefig(path, dpi = 400)
+        fig.savefig(path, dpi = 300)
