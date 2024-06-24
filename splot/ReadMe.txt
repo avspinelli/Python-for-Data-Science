@@ -1,2 +1,8 @@
-Function Name: splot
-Purpose: splot is a quick and easy tool to create clear and beautiful graphs very quickly, with econometric modeling in mind. It was created to mimic R's graphing functionality
+### splot
+splot(data, x, plot_type, y = None, y2 = None, recession = True, text = None, size = [11.326, 7] , golden_ratio = False, data_annotation = True, bins = 10, reg = False, reg_order = 1, path = None)
+
+
+
+
+
+
