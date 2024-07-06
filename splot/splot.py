@@ -6,7 +6,8 @@ import datetime as dt
 
 
 def splot(data, x, plot_type, y = None, y2 = None, recession = True,
-          text = None, size = [11.326, 7] , golden_ratio = False, data_annotation = True, bins = 10, reg = False, reg_order = 1, path = None):
+          text = None, size = [11.326, 7] , golden_ratio = False, data_annotation = True,
+          anot_stat = 'mean', bins = 10, reg = False, reg_order = 1, path = None, dpi = 400, custom_line = None, title = None):
     plt.close()
     
     if plot_type != 'distribution' and plot_type != 'scatterplot' and plot_type != 'lineplot' and plot_type != 'two lineplots' and plot_type != 'double lineplot':
@@ -52,8 +53,11 @@ def splot(data, x, plot_type, y = None, y2 = None, recession = True,
                 plt.axvspan(dt.datetime.strptime(recession_periods[0], '%Y-%m-%d'),
                             dt.datetime.strptime(recession_periods[1], '%Y-%m-%d'),
                             color=color, alpha=alpha, zorder = -1) 
-    
-        if not df[[x]].select_dtypes(include=[np.datetime64]).columns[0] == x: recession = False # If the x var is not datetime, recession goes off
+
+        try:
+            data[[x]].select_dtypes(include=[np.datetime64]).columns[0] # If the x var is not datetime, recession goes off
+        except IndexError:
+            recession = False
             
         if golden_ratio == False: # Golden ratio option to multiply any size[1] that you input by the golden ratio approximation of 1.618
             sns.set_theme(rc={'figure.figsize':(size[0],size[1])},style="ticks") # Set theme according to which size option you input
@@ -67,17 +71,25 @@ def splot(data, x, plot_type, y = None, y2 = None, recession = True,
             recession = False           
             y = x                       # y = x for label formatting later on
             ax = sns.histplot(data[x], color = splot_palette[0], bins = bins, alpha = 1) # Do histplot
-            ax.axvline(data[x].mean(), c='grey', ls='--', lw=2.5)                        # creates a grey mean on the distribution
+            if anot_stat == 'mean':
+                ax.axvline(data[x].mean(), c='grey', ls='--', lw=2.5)                        # creates a grey mean on the distribution
+            if anot_stat == 'median':
+                ax.axvline(data[x].median(), c='grey', ls='--', lw=2.5)  # creates a grey median on the distribution
+
+            if not custom_line == None:
+                ax.axvline(custom_line, c=splot_palette[2], ls='--', lw=2.5)
+                
+            
             ax.yaxis.grid(color = 'grey', linestyle = 'dashed', alpha = .3, zorder = -1) # ax.yaxis.grid creates the background lines, in this case grey dashed lines
     
         elif plot_type == 'scatterplot': #____ Scatterplot ____ https://seaborn.pydata.org/generated/seaborn.scatterplot.html and https://seaborn.pydata.org/generated/seaborn.regplot.html
             recession = False
             
             if reg == True: # If the reg option is true, it will do a regplot instead of a simple scatterplot
-                ax = sns.regplot(data = df, x = x, y = y, order=reg_order, color = splot_palette[0])     # If order is greater than 1, use numpy.polyfit to estimate a polynomial regression.
+                ax = sns.regplot(data = data, x = x, y = y, order=reg_order, color = splot_palette[0])     # If order is greater than 1, use numpy.polyfit to estimate a polynomial regression.
     
             elif reg == False: # else if its false it will default to a scatter plot
-                ax = sns.scatterplot(data = df, x = x, y = y, color = splot_palette[0])
+                ax = sns.scatterplot(data = data, x = x, y = y, color = splot_palette[0])
     
             ax.yaxis.grid(color = 'grey', linestyle = 'dashed', alpha = .3, zorder = -1)
             y2 = y    # This is for setting the title later on
@@ -116,19 +128,19 @@ def splot(data, x, plot_type, y = None, y2 = None, recession = True,
             handles, labels = ax.get_legend_handles_labels() # Add legend
             ax.legend(handles=handles[:], labels=labels[:])
     
-            
-    
         
         # Standards - these are standard quality of life changes that each graph gets a combination of
         ax.set_xlabel(ax.get_xlabel(), fontdict = {'weight': 'bold'}) # create bold x label
         
         if recession == True: # If recession = True run the recession function established above
             recession_markers(alpha = .1) # made alpha adjustable for testing, or for others to change if they want darker recession bars
-    
-        if plot_type == 'lineplot' or plot_type == 'distribution': # Depending on the plot they get a slightly diffrent title
-            ax.set_title(f'{y} {plot_type.capitalize()}')
+        if not title == None:
+            ax.set_title(title)
         else:
-            ax.set_title(f'{y} : {y2}')
+            if plot_type == 'lineplot' or plot_type == 'distribution': # Depending on the plot they get a slightly diffrent title
+                ax.set_title(f'{y} {plot_type.capitalize()}')
+            else:
+                ax.set_title(f'{y} : {y2}')
             
         if plot_type != 'distribution' and plot_type != 'scatterplot': # If not dist or scatter it is a time series which needs to be at within max and min dates
             ax.set(xlim=(g_start, g_end))
@@ -145,7 +157,12 @@ def splot(data, x, plot_type, y = None, y2 = None, recession = True,
         if data_annotation == True: # automatic mean or corr on the graph depending, very useful for variable selection when modeling
             
             if plot_type == 'lineplot' or plot_type == 'distribution':
-                metric_annotate = f'Mean: {round(data[y].mean(),3)}'
+    
+                if anot_stat == 'mean':
+                    metric_annotate = f'Mean: {round(data[y].mean(),3)}'
+                if anot_stat == 'median':
+                    metric_annotate = f'Median: {round(data[y].median(),3)}'
+
             else:
                 metric_annotate = f'Corr: {round(data[[y,y2]].corr()[y][y2], 3)}'
                 
@@ -170,4 +187,4 @@ def splot(data, x, plot_type, y = None, y2 = None, recession = True,
         if path != None: # save to path if you supply one
             
             fig = ax.get_figure()
-            fig.savefig(path, dpi = 300)
+            fig.savefig(path, dpi = dpi)
