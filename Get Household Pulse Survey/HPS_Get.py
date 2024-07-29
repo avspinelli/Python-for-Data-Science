@@ -2,7 +2,7 @@ import pandas as pd
 import requests, zipfile, io
 from bs4 import BeautifulSoup as bs
 
-path_to_save_hps_data = 'YOUR_PATH_HERE' # This will be where you want to save the hps csv's
+path_to_save_hps_data = '/path/' # This will be where you want to save the hps csv's
 
 hps_html = requests.get('https://www.census.gov/programs-surveys/household-pulse-survey/datasets.html') # Make the initial request to hps
 if hps_html.status_code == 200: # If request status code is good, proceed
