@@ -56,8 +56,53 @@ splot(data, x, plot_type, y=None, recession=True, seperate_y_axis=False, text=No
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Change the annotation stat to median for some plots
 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; **bins :** ***int, default 10***
 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Number of bins for distribution plot
 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; **reg :** ***Bool, default False***
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Add a regression line to scatterplot
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; **reg_order :** ***int, default 1***
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; If order is greater than 1, use numpy.polyfit to estimate a polynomial regression
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; **path :** ***str, default None***
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Path for output png
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; **dpi :** ***int, default 300***
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; DPI for png output
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; **custom_line :** ***float, datetime object, default None***
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Creates a custom line on the x axis of the plot. Can be datetime object
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; **custom_line2 :** ***float, datetime object, default None***
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Creates a custom line on the x axis of the plot. Can be datetime object
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; **title :** ***str, default None***
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Customize title of plot
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; **bar_order :** ***list, default None***
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Specify the order of a barplot
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; **end_date :** ***str, datetime, default None***
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Custom end date of lineplot
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; **y_alpha :** ***list, int, default [1,1,...]***
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Set custom alpha for y variables in lineplot
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; **splot_palette :** ***list, str, default ['#27aeef', '#87bc45', '#ef9b20', '#b33dc6', '#E14636', '#E0C700']***
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Default color palette, can be altered for custom colors
 
 
 
