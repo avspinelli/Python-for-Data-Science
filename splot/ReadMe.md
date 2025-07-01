@@ -12,7 +12,8 @@ splot(data, x, plot_type, y=None, recession=True, seperate_y_axis=False, text=No
 ```
 
 ## Parameters:
-    data: dsjjhd
+data: pd.DataFrame
+x: x axis varaible
 
 ## Quick Start
 
