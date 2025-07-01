@@ -12,7 +12,7 @@ splot(data, x, plot_type, y=None, recession=True, seperate_y_axis=False, text=No
 ```
 
 ## Parameters:
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ** ** data : pd.DataFrame
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; data : pd.DataFrame
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Input data
 
 #### x : str
