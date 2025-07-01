@@ -21,7 +21,7 @@ splot(data= df, x = 'period', y = ['Rental_Vacancy_Rate','r15'], plot_type = 'li
 Two lineplots, one on each axis:
 
 splot(data= df, x = 'period', y = ['Rental_Vacancy_Rate','Homeownership_Rate'], plot_type = 'lineplot',seperate_y_axis = True, data_annotation = False)
-![alt text](https://github.com/avspinelli/Python-for-Data-Science/blob/main/splot/images/RVR_HR.png?raw=true)
+![alt text](https://github.com/avspinelli/Python-for-Data-Science/blob/main/splot/images/RVR_HR2.png?raw=true)
 
 
 
