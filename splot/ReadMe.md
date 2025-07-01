@@ -24,7 +24,7 @@ splot(data= df, x = 'period', y = ['Rental_Vacancy_Rate','Homeownership_Rate'], 
 ```
 ![alt text](https://github.com/avspinelli/Python-for-Data-Science/blob/main/splot/images/RVR_HR2.png?raw=true)
 
-Distrobutions:
+Distributions:
 ```ruby
 splot(data= df, x = 'Rental_Vacancy_Rate', plot_type = 'distribution', bins = 30,)
 ```
