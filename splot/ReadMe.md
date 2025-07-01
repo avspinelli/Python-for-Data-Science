@@ -3,12 +3,13 @@
 
 Splot is an all in one graphing function which allows for easy graph creation / alteration. The function can create scatterplots, lineplots, distributions, barplots and box plots, with functionality to change colors, titles, recession bars, annotations, exporting, and more.
 
+```
 splot(data, x, plot_type, y=None, recession=True, seperate_y_axis=False, text=None, size=[11.326, 7],
     golden_ratio=False, data_annotation=True, anot_stat='mean', bins=10, reg=False, reg_order=1, path=None, dpi=400,
     custom_line=None, custom_line2=None, title=None, bar_order=None, end_date=None,
     y_alpha=[1, 1, 1, 1, 1, 1, 1, 1, 1], splot_palette=['#27aeef', '#87bc45', '#ef9b20', '#b33dc6', '#E14636', '#E0C700'],
 )
-
+```
 
 ## Quick Start
 
