@@ -6,8 +6,7 @@ Splot is an all in one graphing function which allows for easy graph creation / 
 ## Quick Start
 
 splot(data = df, x = 'period', y = 'Rental_Vacancy_Rate', plot_type = 'lineplot')
-![alt text](https://github.com/avspinelli/Python-for-Data-Science/splot/images/RVR.png?raw=true)
-
+![alt text](https://github.com/avspinelli/Python-for-Data-Science/blob/main/splot/images/RVR.png?raw=true)
 
 
 
