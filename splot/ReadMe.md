@@ -12,10 +12,26 @@ splot(data, x, plot_type, y=None, recession=True, seperate_y_axis=False, text=No
 ```
 
 ## Parameters:
-##### data: pd.DataFrame
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; must be dataframe
+#### data : pd.DataFrame
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Input data
 
-##### x: x axis varaible
+#### x : str
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Column to plot on the x axis
+
+#### plot_type : str
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Type of plot: 'distribution', 'scatterplot', 'lineplot', 'barplot', 'boxplot'
+
+#### y : str, list, default None
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Column to plot on the y axis. Can be list: ['var1', 'var2']
+
+#### recession : bool, default True
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Adds recession markers for time series data
+
+#### seperate_y_axis : bool, default False
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; For lineplot with 2 y variables, will sepwrate y axis
+
+
+
 
 ## Quick Start
 
