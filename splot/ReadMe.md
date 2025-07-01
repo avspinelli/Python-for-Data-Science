@@ -6,23 +6,28 @@ Splot is an all in one graphing function which allows for easy graph creation / 
 ## Quick Start
 
 
-Quick Lineplot with recession markers, and some other fancy features
+Quick Lineplot with recession markers, and some other fancy features (They can all be turned off, on by default):
 ```ruby
 splot(data = df, x = 'period', y = 'Rental_Vacancy_Rate', plot_type = 'lineplot')
 ```
 ![alt text](https://github.com/avspinelli/Python-for-Data-Science/blob/main/splot/images/RVR.png?raw=true)
 
-Adding a second line
+Adding a second line:
 ```ruby
 splot(data= df, x = 'period', y = ['Rental_Vacancy_Rate','r15'], plot_type = 'lineplot', path = 'your/path/here/image.png')
 ```
 ![alt text](https://github.com/avspinelli/Python-for-Data-Science/blob/main/splot/images/RVR_R15.png?raw=true)
 
 Two lineplots, one on each axis:
-
+```ruby
 splot(data= df, x = 'period', y = ['Rental_Vacancy_Rate','Homeownership_Rate'], plot_type = 'lineplot',seperate_y_axis = True, data_annotation = False)
+```
 ![alt text](https://github.com/avspinelli/Python-for-Data-Science/blob/main/splot/images/RVR_HR2.png?raw=true)
 
-
+Distrobutions:
+```ruby
+splot(data= df, x = 'Rental_Vacancy_Rate', plot_type = 'distribution', bins = 30,)
+```
+![alt text](https://github.com/avspinelli/Python-for-Data-Science/blob/main/splot/images/RVR_dist.png?raw=true)
 
 
