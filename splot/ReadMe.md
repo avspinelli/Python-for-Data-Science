@@ -12,9 +12,8 @@ splot(data, x, plot_type, y=None, recession=True, seperate_y_axis=False, text=No
 ```
 
 ## Parameters:
-data: pd.DataFrame
-
-x: x axis varaible
+#### data: pd.DataFrame
+&nbsp x: x axis varaible
 
 ## Quick Start
 
