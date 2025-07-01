@@ -12,8 +12,8 @@ splot(data, x, plot_type, y=None, recession=True, seperate_y_axis=False, text=No
 ```
 
 ## Parameters:
-#### data : pd.DataFrame
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Input data
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ** ** data : pd.DataFrame
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Input data
 
 #### x : str
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Column to plot on the x axis
