@@ -30,4 +30,6 @@ splot(data= df, x = 'Rental_Vacancy_Rate', plot_type = 'distribution', bins = 30
 ```
 ![alt text](https://github.com/avspinelli/Python-for-Data-Science/blob/main/splot/images/RVR_dist.png?raw=true)
 
+## splot options
+
 
