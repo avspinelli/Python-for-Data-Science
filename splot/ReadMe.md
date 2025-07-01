@@ -22,7 +22,7 @@ splot(data, x, plot_type, y=None, recession=True, seperate_y_axis=False, text=No
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; **plot_type :** ***str***
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Type of plot: 'distribution', 'scatterplot', 'lineplot', 'barplot', 'boxplot'
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Type of plot: distribution, scatterplot, lineplot, barplot, boxplot
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; **y :** ***str, list, default None***
 
@@ -35,6 +35,28 @@ splot(data, x, plot_type, y=None, recession=True, seperate_y_axis=False, text=No
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; **seperate_y_axis :** ***bool, default False***
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; For lineplot with 2 y variables, will sepwrate y axis
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; **text :** ***str, default None***
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Text to be displayed as a footnote at the bottom of the plot
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; **size :** ***list, default [11.326, 7]***
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Image size
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; **golden_ratio :** ***Bool, default False***
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Snaps image size to the golden ratio: size[1] * 1.618
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; **data_annotation :** ***Bool, default True***
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Descriptive data annotation that changes per plot. For scatterplot, defaults to correlation, for other plots defaults to mean
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; **anot_stat :** ***str, default mean***
+
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Change the annotation stat to median for some plots
+
+
 
 
 
