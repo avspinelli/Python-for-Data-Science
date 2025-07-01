@@ -53,7 +53,7 @@ def splot(data, x, plot_type, y = None, recession = True, seperate_y_axis = Fals
                 color_dict.update(rgba)
                 item +=1
         except TypeError:
-            print('nothing to do here')
+            None
 
 
         #____ Recession function ____ https://fred.stlouisfed.org/series/USREC
