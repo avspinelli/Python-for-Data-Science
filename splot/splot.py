@@ -3,14 +3,16 @@ import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
 import datetime as dt
+from matplotlib.colors import to_rgba
 
 
-def splot(data, x, plot_type, y = None, y2 = None, recession = True,
+def splot(data, x, plot_type, y = None, recession = True, seperate_y_axis = False,
           text = None, size = [11.326, 7] , golden_ratio = False, data_annotation = True,
-          anot_stat = 'mean', bins = 10, reg = False, reg_order = 1, path = None, dpi = 400, custom_line = None, title = None):
+          anot_stat = 'mean', bins = 10, reg = False, reg_order = 1, path = None, dpi = 400, custom_line = None, custom_line2 = None, title = None, bar_order = None,
+          end_date = None, y_alpha = [1,1,1,1,1,1,1,1,1], splot_palette = ["#27aeef", "#87bc45", "#ef9b20", "#b33dc6","#E14636","#E0C700"]):
     plt.close()
     
-    if plot_type != 'distribution' and plot_type != 'scatterplot' and plot_type != 'lineplot' and plot_type != 'two lineplots' and plot_type != 'double lineplot':
+    if plot_type != 'distribution' and plot_type != 'scatterplot' and plot_type != 'lineplot' and plot_type != 'two lineplots' and plot_type != 'double lineplot' and plot_type != 'multiple lineplot' and plot_type != 'barplot' and plot_type != 'boxplot':
         raise Exception( # Error exception for catching incorrect plot_types
             """
             Please use one of the following plot_type options:
@@ -18,8 +20,8 @@ def splot(data, x, plot_type, y = None, y2 = None, recession = True,
             1. distribution
             2. scatterplot
             3. lineplot
-            4. two lineplots
-            5. double lineplot
+            4. barplot
+            5. boxplot
 
             Basic structure is:
 
@@ -31,13 +33,29 @@ def splot(data, x, plot_type, y = None, y2 = None, recession = True,
             )
 
             For more info: https://github.com/avspinelli/Python-Functions-for-Data-Science/tree/main/splot
+
+            *** bar_order can equal None, True, or False for ascending
             """
         )
     else:
-        
-        splot_palette = ["#27aeef", "#87bc45", "#ef9b20", "#b33dc6"] # HEX Codes to be used for colors
-        
-        
+        try: # Settig up color pallette
+            if type(y) == str:
+                y_len = [y]
+            else:
+                y_len = y
+            
+            color_dict = {}
+            item = 0
+            for i in y_len:
+            
+                rgba = {i: to_rgba(splot_palette[item], y_alpha[item])}
+                
+                color_dict.update(rgba)
+                item +=1
+        except TypeError:
+            print('nothing to do here')
+
+
         #____ Recession function ____ https://fred.stlouisfed.org/series/USREC
         def recession_markers(alpha = .2, color = 'grey'):      # Generates economic recession markers on the plot for economic graphs, can be turned off with recession = False
             recession_df = [
@@ -71,15 +89,17 @@ def splot(data, x, plot_type, y = None, y2 = None, recession = True,
             recession = False           
             y = x                       # y = x for label formatting later on
             ax = sns.histplot(data[x], color = splot_palette[0], bins = bins, alpha = 1) # Do histplot
-            if anot_stat == 'mean':
-                ax.axvline(data[x].mean(), c='grey', ls='--', lw=2.5)                        # creates a grey mean on the distribution
-            if anot_stat == 'median':
-                ax.axvline(data[x].median(), c='grey', ls='--', lw=2.5)  # creates a grey median on the distribution
+            if data_annotation == True:
+                if anot_stat == 'mean':
+                    ax.axvline(data[x].mean(), c='grey', ls='--', lw=2.5)                        # creates a grey mean on the distribution
+                if anot_stat == 'median':
+                    ax.axvline(data[x].median(), c='grey', ls='--', lw=2.5)  # creates a grey median on the distribution
 
             if not custom_line == None:
                 ax.axvline(custom_line, c=splot_palette[2], ls='--', lw=2.5)
+            if not custom_line2 == None:
+                ax.axvline(custom_line2, c=splot_palette[2], ls='--', lw=2.5)
                 
-            
             ax.yaxis.grid(color = 'grey', linestyle = 'dashed', alpha = .3, zorder = -1) # ax.yaxis.grid creates the background lines, in this case grey dashed lines
     
         elif plot_type == 'scatterplot': #____ Scatterplot ____ https://seaborn.pydata.org/generated/seaborn.scatterplot.html and https://seaborn.pydata.org/generated/seaborn.regplot.html
@@ -93,7 +113,6 @@ def splot(data, x, plot_type, y = None, y2 = None, recession = True,
     
             ax.yaxis.grid(color = 'grey', linestyle = 'dashed', alpha = .3, zorder = -1)
             y2 = y    # This is for setting the title later on
-            y = x
             
         else:
             # General data org
@@ -102,33 +121,68 @@ def splot(data, x, plot_type, y = None, y2 = None, recession = True,
             g_start = data.sort_values(x, ascending = True).iloc[0][x] # Sets graphs start and end dates for time series data
             g_end = data.sort_values(x, ascending = False).iloc[0][x]
     
-    
+
         if plot_type == 'lineplot': #____ Lineplot ____ https://seaborn.pydata.org/generated/seaborn.lineplot.html
+
+            if type(y) == str: # If y is a string that means its just 1 line variable
+                ax = sns.lineplot(x = x, y = y, data = data, color = splot_palette[0], alpha = y_alpha[0])
+                
+                if not custom_line == None:
+                    ax.axvline(custom_line, c=splot_palette[2], ls='--', lw=2.5)
+                if not custom_line2 == None:
+                    ax.axvline(custom_line2, c=splot_palette[2], ls='--', lw=2.5)
+
+            else:
+                
+                if seperate_y_axis == False: # Multiple lineplots
+
+                    data_melt = data.melt(id_vars = x, value_vars = y) # pd.melt organizes the data for same axis plotting
+                    ax = sns.lineplot(x = x, y = 'value', data = data_melt, hue = 'variable', palette = color_dict) 
     
-            ax = sns.lineplot(x = x, y = y, data = data, color = splot_palette[0], alpha = 1)
-    
-    
-        if plot_type == 'two lineplots': #____ plt.twinx() creates secondary y axis ____ https://seaborn.pydata.org/generated/seaborn.lineplot.html
-    
-    
-            ax = sns.lineplot(x = x, y = y, data = data, color = splot_palette[0], alpha = 1)
-            ax2 = plt.twinx()
-            ax2 = sns.lineplot(x = x, y = y2, data = data, color = splot_palette[1], ax = ax2, alpha = 1) # ax = ax2 combines the two
+                    handles, labels = ax.get_legend_handles_labels() # Add legend
+                    ax.legend(handles=handles[:], labels=labels[:])
             
-            ax2.yaxis.grid(color = splot_palette[1], linestyle = 'dashed', alpha = .15) # Y label below bolds and puts a box around the label to identify line color
-            ax2.set_ylabel(ax2.get_ylabel(), fontdict = {'weight': 'bold'}, bbox = dict(boxstyle = "square,pad=0.3", edgecolor = splot_palette[1], facecolor = "White"), rotation = -90, va='bottom')
-    
-    
-        if plot_type == 'double lineplot': #____ similar to two lineplot except the lines are on the same axis ____ https://seaborn.pydata.org/generated/seaborn.lineplot.html
-    
-            
-            data_melt = data.melt(id_vars = x, value_vars = [y,y2]) # pd.melt organizes the data for same axis plotting
-            ax = sns.lineplot(x = x, y = 'value', data = data_melt, palette = splot_palette[:2], hue = 'variable', alpha = 1) 
-            
-            handles, labels = ax.get_legend_handles_labels() # Add legend
-            ax.legend(handles=handles[:], labels=labels[:])
-    
+                    if not custom_line == None:
+                        ax.axvline(custom_line, c=splot_palette[2], ls='--', lw=2.5)
+                    if not custom_line2 == None:
+                        ax.axvline(custom_line2, c=splot_palette[2], ls='--', lw=2.5)
+                else:
         
+                    ax = sns.lineplot(x = x, y = y[0], data = data, color = splot_palette[0], alpha = 1)
+                    ax2 = plt.twinx()
+                    ax2 = sns.lineplot(x = x, y = y[1], data = data, color = splot_palette[1], ax = ax2, alpha = 1) # ax = ax2 combines the two
+                    
+                    ax2.yaxis.grid(color = splot_palette[1], linestyle = 'dashed', alpha = .15) # Y label below bolds and puts a box around the label to identify line color
+                    ax2.set_ylabel(ax2.get_ylabel(), fontdict = {'weight': 'bold'}, bbox = dict(boxstyle = "square,pad=0.3", edgecolor = splot_palette[1], facecolor = "White"), rotation = -90, va='bottom')
+                    
+                    if not custom_line == None:
+                        ax.axvline(custom_line, c=splot_palette[2], ls='--', lw=2.5)
+                    if not custom_line2 == None:
+                        ax.axvline(custom_line2, c=splot_palette[2], ls='--', lw=2.5)
+
+        
+        if plot_type == 'barplot': 
+            if bar_order != None:
+                bar_order = data.sort_values(y, ascending = bar_order)[x]
+            
+            ax = sns.barplot(data = data, x = x, y = y, order = bar_order, color = splot_palette[0])
+
+
+        if plot_type == 'boxplot': 
+            
+            ax = sns.boxplot(data = data, x = x, y = y, color = splot_palette[0])
+            
+            if data_annotation == True:
+                if anot_stat == 'mean':
+                    ax.axhline(data[y].mean(), c='grey', ls='--', lw=2.5)                        # creates a grey mean on the distribution
+                if anot_stat == 'median':
+                    ax.axhline(data[y].median(), c='grey', ls='--', lw=2.5) 
+            if not custom_line == None:
+                ax.axhline(custom_line, c=splot_palette[2], ls='--', lw=2.5)
+            if not custom_line2 == None:
+                ax.axhline(custom_line2, c=splot_palette[2], ls='--', lw=2.5)
+
+
         # Standards - these are standard quality of life changes that each graph gets a combination of
         ax.set_xlabel(ax.get_xlabel(), fontdict = {'weight': 'bold'}) # create bold x label
         
@@ -139,12 +193,16 @@ def splot(data, x, plot_type, y = None, y2 = None, recession = True,
         else:
             if plot_type == 'lineplot' or plot_type == 'distribution': # Depending on the plot they get a slightly diffrent title
                 ax.set_title(f'{y} {plot_type.capitalize()}')
-            else:
-                ax.set_title(f'{y} : {y2}')
+            elif plot_type == 'barplot' or plot_type == 'boxplot':
+                ax.set_title(f'{x} : {y} {plot_type.capitalize()}')
+            elif plot_type == 'scatterplot':
+                ax.set_title(f'{x} : {y} {plot_type.capitalize()}')
             
-        if plot_type != 'distribution' and plot_type != 'scatterplot': # If not dist or scatter it is a time series which needs to be at within max and min dates
+        if plot_type != 'distribution' and plot_type != 'scatterplot' and plot_type != 'barplot' and plot_type != 'boxplot': # If not dist or scatter it is a time series which needs to be at within max and min dates
             ax.set(xlim=(g_start, g_end))
             ax.yaxis.grid(color = splot_palette[0], linestyle = 'dashed', alpha = .15)
+        if end_date != None:
+            ax.set(xlim=(g_start, end_date))
     
         if plot_type == 'double lineplot': # double lineplot gets no y label because it gets a legend
             ax.set(ylabel='')
@@ -153,16 +211,19 @@ def splot(data, x, plot_type, y = None, y2 = None, recession = True,
         else:
             ax.set_ylabel(ax.get_ylabel(), fontdict={'weight': 'bold'}, bbox = dict(boxstyle = "square,pad=0.3", edgecolor = splot_palette[0], facecolor = "White"))
     
-    
+        if plot_type == 'barplot':
+            data_annotation = False
         if data_annotation == True: # automatic mean or corr on the graph depending, very useful for variable selection when modeling
             
-            if plot_type == 'lineplot' or plot_type == 'distribution':
+            if plot_type == 'lineplot' or plot_type == 'distribution' or plot_type == 'boxplot':
     
                 if anot_stat == 'mean':
                     metric_annotate = f'Mean: {round(data[y].mean(),3)}'
                 if anot_stat == 'median':
                     metric_annotate = f'Median: {round(data[y].median(),3)}'
-
+                    
+            elif plot_type == 'scatterplot':
+                    metric_annotate = f'Corr: {round(data[[x,y]].corr()[x][y], 3)}'
             else:
                 metric_annotate = f'Corr: {round(data[[y,y2]].corr()[y][y2], 3)}'
                 
@@ -178,8 +239,7 @@ def splot(data, x, plot_type, y = None, y2 = None, recession = True,
             ax.annotate(
                 f'{text}',
                 xy=(-.08, -0.13),
-                xycoords="axes fraction",
-                bbox=dict(boxstyle="square,pad=0.3", edgecolor="grey", facecolor="White")
+                xycoords="axes fraction"
             )
             
         plt.show() # show the plot
